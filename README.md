@@ -1,9 +1,12 @@
 # WebToMarkdown 🌐 ➡️ 📝
 
-一个强大的网页转Markdown工具 ✨
+一个强大的网页转Markdown工具，让您轻松实现文档站点的完全本地化！✨
+
+本工具可以将在线文档站点完整地转换为Markdown文件，包括图片等资源文件的本地化处理，使您能够在完全离线的环境下浏览和管理文档。
 
 ## 功能特点 🎯
 
+- 📱 支持文档站点完全本地化
 - 🕷️ 智能网页爬取
 - 📄 HTML到Markdown的精准转换
 - 🖼️ 资源文件自动处理
@@ -34,18 +37,28 @@ pip install -r requirements.txt
 
 1. 配置文件设置
 
+在 `config/default.yaml` 中配置相关参数：
+
 ```yaml
-# config/default.yaml中配置相关参数
+target_url: "https://example.com"
+output_dir: "./output"
+max_depth: 3
+delay: 1
+user_agent: "WebToMarkdown Bot"
+download_images: true
+ignore_links: false
+bypass_tables: false
 ```
 
-2. 运行转换
+2. 运行服务
 
-```python
-from web_to_markdown import WebToMarkdown
+在命令行中运行：
 
-converter = WebToMarkdown()
-converter.convert("https://example.com")
+```bash
+python src/web_to_markdown.py
 ```
+
+这将开始网页爬取和转换过程。转换后的 Markdown 文件将保存在配置文件中指定的输出目录中。
 
 ## 主要模块说明 🔍
 
