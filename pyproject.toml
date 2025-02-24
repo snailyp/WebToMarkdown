@@ -1,0 +1,18 @@
+[tool.poetry]
+name = "web-to-markdown"
+version = "0.1.0"
+description = "Convert websites to markdown archives"
+authors = ["Your Name <your@email.com>"]
+
+[tool.poetry.dependencies]
+python = "^3.8"
+requests = "^2.26.0"
+beautifulsoup4 = "^4.10.0"
+readability-lxml = "^0.8.1"
+html2text = "^2020.1.16"
+PyYAML = "^6.0"
+python-slugify = "^5.0.2"
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"

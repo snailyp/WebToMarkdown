@@ -1,0 +1,4 @@
+target_url: "https://cn.vuejs.org/api"
+output_dir: "./output"
+max_depth: 3
+download_images: false

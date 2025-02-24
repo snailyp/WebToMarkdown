@@ -1,9 +1,9 @@
-from src.config_loader import ConfigLoader
-from src.crawler.spider import WebSpider
-from src.parser.content_extractor import ContentExtractor
-from src.parser.html_to_md import HTML2Markdown
-from src.parser.resource_handler import ResourceHandler
-from src.utils.logger import get_logger
+from config_loader import ConfigLoader
+from crawler.spider import WebSpider
+from parser.content_extractor import ContentExtractor
+from parser.html_to_md import HTML2Markdown
+from parser.resource_handler import ResourceHandler
+from utils.logger import Logger
 from pathlib import Path
 import re
 
@@ -11,7 +11,7 @@ import re
 class WebToMarkdown:
     def __init__(self, config_path="config/default.yaml"):
         self.config = ConfigLoader(config_path)
-        self.logger = get_logger(__name__)
+        self.logger = Logger(__name__)
         self.spider = WebSpider(
             self.config.get('target_url'),
             self.config.get('max_depth', 5),
@@ -69,8 +69,16 @@ class WebToMarkdown:
             if not img_url.startswith(('http://', 'https://')):
                 img_url = self.spider.normalize_url(base_url, img_url)
                 
-            # Download the image and get local path
-            local_path = self.res_handler.download_image(img_url)
+            # Download the image and get local path (relative to output root)
+            asset_path = self.res_handler.download_image(img_url)
+            
+            # Calculate relative path based on URL depth
+            url_path = base_url[len(self.config.get('target_url')):].strip('/')
+            depth = len(url_path.split('/')) - 1 if url_path else 0
+            prefix = '../' * depth if depth > 0 else './'
+            
+            # Construct final path
+            local_path = f"{prefix}{asset_path}"
             
             # Return updated markdown image syntax
             return f'![{alt_text}]({local_path})'
@@ -97,7 +105,6 @@ class WebToMarkdown:
             
             with open(output_path, 'w', encoding='utf-8') as f:
                 f.write(content)
-                
             return output_path
             
         except Exception as e:
@@ -107,3 +114,7 @@ class WebToMarkdown:
             with open(output_path, 'w', encoding='utf-8') as f:
                 f.write(content)
             return output_path
+
+
+if __name__ == '__main__':
+    WebToMarkdown().run()

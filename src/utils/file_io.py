@@ -1,11 +1,11 @@
-import os
-from pathlib import Path
-import shutil
 import json
-from src.utils.logger import get_logger
+import os
+import shutil
+from pathlib import Path
 
+from utils.logger import Logger
 
-logger = get_logger(__name__)
+logger = Logger(__name__)
 
 
 def ensure_directory(path):
@@ -18,7 +18,7 @@ def ensure_directory(path):
         return False
 
 
-def write_file(path, content, mode='w', encoding='utf-8'):
+def write_file(path, content, mode="w", encoding="utf-8"):
     """Write content to file with error handling"""
     try:
         with open(path, mode, encoding=encoding) as f:
@@ -29,7 +29,7 @@ def write_file(path, content, mode='w', encoding='utf-8'):
         return False
 
 
-def read_file(path, mode='r', encoding='utf-8'):
+def read_file(path, mode="r", encoding="utf-8"):
     """Read content from file with error handling"""
     try:
         with open(path, mode, encoding=encoding) as f:
@@ -42,7 +42,7 @@ def read_file(path, mode='r', encoding='utf-8'):
 def save_json(path, data, indent=2):
     """Save data as JSON file"""
     try:
-        with open(path, 'w', encoding='utf-8') as f:
+        with open(path, "w", encoding="utf-8") as f:
             json.dump(data, f, ensure_ascii=False, indent=indent)
         return True
     except Exception as e:
@@ -53,7 +53,7 @@ def save_json(path, data, indent=2):
 def load_json(path):
     """Load data from JSON file"""
     try:
-        with open(path, 'r', encoding='utf-8') as f:
+        with open(path, "r", encoding="utf-8") as f:
             return json.load(f)
     except Exception as e:
         logger.error(f"Error loading JSON from {path}: {e}")

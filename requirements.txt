@@ -1,0 +1,6 @@
+html2text
+requests
+beautifulsoup4
+PyYAML
+pathlib
+readability
